@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Давид — веб-дизайнер, создаю сайты с помощью нейросетей. Telegram @davidwebai">
+<title>Давид · AI Web Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Unbounded:wght@400;600;800;900&family=Manrope:wght@400;500;700&family=Noto+Sans+SC:wght@400;700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+/* Layout: cobalt poster hero with a live "prompt → layout" machine, then work, process, contacts on a cool paper ground */
+:root{
+  --paper:#F2F3FF;
+  --ink:#121036;
+  --cobalt:#2638FF;
+  --sun:#FFD84A;
+  --pink:#FF4F9A;
+  --mint:#3DE8B2;
+  --muted:#5B5A86;
+  --line:#D6D8F5;
+  --font-display:"Unbounded","Noto Sans SC","Arial Black",system-ui,sans-serif;
+  --font-body:"Manrope","Noto Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono","Noto Sans SC",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--pink);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.02}
+.mono{font-family:var(--font-mono)}
+.eyebrow{font-family:var(--font-mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+
+/* placeholder marker */
+.ph{outline:2px dashed var(--pink);outline-offset:3px;border-radius:4px}
+.draft{background:var(--ink);color:var(--paper);font-family:var(--font-mono);font-size:13px}
+.draft .wrap{padding-block:9px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.draft i{display:inline-block;width:28px;height:14px;border:2px dashed var(--pink);border-radius:3px}
+
+/* nav */
+.nav{background:var(--cobalt);color:#fff}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px}
+.logo{font-family:var(--font-display);font-weight:800;font-size:18px;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo b{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--sun);color:var(--ink);font-size:15px}
+.nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-weight:500}
+.nav ul a{text-decoration:none;opacity:.85}
+.nav ul a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;border-radius:999px;padding:12px 22px;border:2px solid var(--ink);background:var(--sun);color:var(--ink);transition:transform .15s,box-shadow .15s;box-shadow:4px 4px 0 var(--ink);cursor:pointer;font:inherit;font-weight:700}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn.ghost{background:transparent;color:inherit;border-color:currentColor;box-shadow:none}
+.btn.ghost:hover{background:rgba(255,255,255,.12);transform:none}
+
+/* hero */
+.hero{background:var(--cobalt);color:#fff;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding-block:56px 84px;position:relative;z-index:1}
+.hero .eyebrow{color:var(--sun);display:flex;align-items:center;gap:10px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 var(--mint);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(61,232,178,0)}100%{box-shadow:0 0 0 0 rgba(61,232,178,0)}}
+.hero h1{font-size:clamp(44px,7.4vw,104px);font-weight:900;letter-spacing:-.035em;margin:22px 0 26px}
+.hero h1 .ai{display:inline-block;background:var(--sun);color:var(--ink);padding:0 .14em;border-radius:.18em;transform:rotate(-3deg)}
+.hero h1 .pink{color:var(--pink);-webkit-text-stroke:0}
+.hero p.lead{font-size:clamp(17px,1.6vw,20px);max-width:34em;opacity:.92;margin:0 0 32px}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
+.blob{position:absolute;border-radius:50%;filter:blur(2px);z-index:0}
+.blob.a{width:420px;height:420px;background:var(--pink);right:-140px;top:-160px;opacity:.9}
+.blob.b{width:180px;height:180px;background:var(--sun);left:42%;bottom:-90px}
+
+/* prompt machine */
+.machine{background:var(--ink);color:var(--paper);border-radius:22px;border:2px solid var(--ink);box-shadow:10px 10px 0 var(--sun);overflow:hidden;min-width:0;transform:rotate(1.5deg)}
+.machine header{display:flex;gap:7px;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.12);font-family:var(--font-mono);font-size:12px;color:#A9A8D6}
+.machine header span{width:11px;height:11px;border-radius:50%;background:#3a3870}
+.machine header span:nth-child(1){background:var(--pink)}
+.machine header span:nth-child(2){background:var(--sun)}
+.machine header span:nth-child(3){background:var(--mint)}
+.machine header em{margin-left:auto;font-style:normal}
+.prompt{padding:16px 18px;font-family:var(--font-mono);font-size:14px;min-height:92px;line-height:1.5}
+.prompt .tag{color:var(--mint)}
+.caret{display:inline-block;width:8px;height:1.1em;background:var(--sun);vertical-align:-3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.canvas{margin:0 14px 14px;border-radius:14px;background:var(--paper);padding:14px;display:grid;gap:9px;aspect-ratio:4/3;max-width:100%;grid-template-rows:auto 1fr auto}
+.canvas .bar{display:flex;justify-content:space-between;align-items:center}
+.canvas .bar i{height:8px;border-radius:4px;background:var(--ink);opacity:.8;display:block}
+.canvas .heroblk{border-radius:10px;display:grid;grid-template-columns:1.2fr 1fr;gap:10px;padding:12px;background:var(--c1,var(--pink));transition:background .6s}
+.canvas .heroblk .lines{display:grid;gap:7px;align-content:center}
+.canvas .heroblk .lines i{height:10px;border-radius:5px;background:var(--ink);display:block}
+.canvas .heroblk .pic{border-radius:8px;background:var(--c2,var(--sun));transition:background .6s}
+.canvas .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.canvas .cards i{height:34px;border-radius:7px;background:#fff;border:1.5px solid var(--ink);display:block}
+.canvas .gen{animation:pop .7s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes pop{from{transform:scale(.85);opacity:.3}to{transform:none;opacity:1}}
+.machine footer{display:flex;justify-content:space-between;padding:0 18px 14px;font-family:var(--font-mono);font-size:12px;color:#A9A8D6}
+
+/* marquee */
+.marquee{background:var(--sun);border-block:2px solid var(--ink);overflow:hidden;white-space:nowrap}
+.marquee div{display:inline-flex;gap:38px;padding-block:14px;animation:slide 32s linear infinite;font-family:var(--font-display);font-weight:600;font-size:20px}
+.marquee span::after{content:"✦";margin-left:38px;color:var(--pink)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* sections */
+section.block{padding-block:96px}
+.head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:44px}
+.head h2{font-size:clamp(34px,5vw,64px);font-weight:800;letter-spacing:-.03em}
+.head p{max-width:30em;color:var(--muted);margin:0}
+.head .eyebrow{color:var(--cobalt);margin-bottom:14px}
+
+/* work */
+.work{display:grid;grid-template-columns:1.6fr 1fr;gap:24px}
+.case{background:#fff;border:2px solid var(--ink);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;box-shadow:8px 8px 0 var(--ink);min-width:0}
+.case .shot{aspect-ratio:16/10;max-width:100%;background:repeating-linear-gradient(45deg,#E7E8FF 0 14px,#F2F3FF 14px 28px);display:grid;place-items:center;text-align:center;border-bottom:2px solid var(--ink);position:relative;color:var(--muted);font-family:var(--font-mono);font-size:14px;padding:16px}
+.case .shot strong{display:block;font-family:var(--font-display);color:var(--ink);font-size:20px;margin-bottom:6px}
+.case .badge{position:absolute;top:16px;left:16px;background:var(--pink);color:#fff;font-family:var(--font-mono);font-size:12px;padding:6px 10px;border-radius:999px;border:2px solid var(--ink)}
+.case .body{padding:24px 26px 28px;display:grid;gap:14px}
+.case h3{font-size:26px;font-weight:800}
+.case p{margin:0;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font-family:var(--font-mono);font-size:12px;padding:5px 10px;border-radius:999px;background:var(--paper);border:1.5px solid var(--line)}
+.case .links{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.case .links .btn{padding:10px 18px;font-size:15px;box-shadow:3px 3px 0 var(--ink)}
+.case .links .btn.ghost{color:var(--ink)}
+.stack{display:grid;gap:24px;grid-template-rows:1fr 1fr}
+.soon{border:2px dashed var(--ink);border-radius:24px;padding:26px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;min-height:200px;background:var(--paper)}
+.soon.c1{background:var(--mint);border-style:solid}
+.soon h3{font-size:22px;font-weight:800}
+.soon p{margin:0;color:var(--ink);opacity:.75;font-size:15px}
+.soon .eyebrow{opacity:.7}
+
+/* process */
+.process{background:var(--ink);color:var(--paper)}
+.process .head p{color:#B4B3DC}
+.process .head .eyebrow{color:var(--sun)}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{border:1.5px solid rgba(255,255,255,.18);border-radius:20px;padding:22px 20px;display:grid;gap:10px;align-content:start;counter-increment:s;min-width:0;transition:background .2s,border-color .2s}
+.steps li:hover{background:rgba(255,255,255,.05);border-color:var(--sun)}
+.steps li::before{content:"0" counter(s);font-family:var(--font-display);font-weight:900;font-size:40px;color:var(--sun);line-height:1}
+.steps li:nth-child(2)::before{color:var(--pink)}
+.steps li:nth-child(3)::before{color:var(--mint)}
+.steps li:nth-child(4)::before{color:#8E9BFF}
+.steps h3{font-size:18px;font-weight:600}
+.steps p{margin:0;font-size:15px;color:#C4C3E6}
+.steps .who{font-family:var(--font-mono);font-size:12px;color:var(--mint)}
+
+/* services + about */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.services{display:grid;gap:0;border-top:2px solid var(--ink)}
+.services div{display:grid;grid-template-columns:auto 1fr;gap:6px 20px;padding:22px 0;border-bottom:2px solid var(--ink)}
+.services b{grid-row:span 2;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-family:var(--font-display);font-size:22px;border:2px solid var(--ink)}
+.services div:nth-child(1) b{background:var(--pink);color:#fff}
+.services div:nth-child(2) b{background:var(--sun)}
+.services div:nth-child(3) b{background:var(--mint)}
+.services h3{font-size:20px;font-weight:600;align-self:end}
+.services p{margin:0;color:var(--muted);font-size:15px}
+.about{background:#fff;border:2px solid var(--ink);border-radius:28px;padding:34px;display:grid;gap:18px;position:relative}
+.about .ava{width:96px;height:96px;border-radius:50%;background:conic-gradient(var(--pink),var(--sun),var(--mint),var(--cobalt),var(--pink));border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--font-display);font-weight:800;font-size:13px;color:var(--ink);text-align:center}
+.about .ava span{background:#fff;border-radius:50%;width:70px;height:70px;display:grid;place-items:center}
+.about h3{font-size:28px;font-weight:800}
+.about p{margin:0;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}
+.stats div{background:var(--paper);border-radius:14px;padding:14px}
+.stats strong{display:block;font-family:var(--font-display);font-size:26px;font-variant-numeric:tabular-nums}
+.stats span{font-size:13px;color:var(--muted)}
+
+/* contacts */
+.contact{background:var(--pink);color:var(--ink);border-top:2px solid var(--ink)}
+.contact .wrap{padding-block:96px 72px}
+.contact h2{font-size:clamp(40px,8vw,120px);font-weight:900;letter-spacing:-.04em;margin-bottom:40px}
+.contact h2 em{font-style:normal;color:#fff}
+.links3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.link{background:var(--paper);border:2px solid var(--ink);border-radius:20px;padding:20px 22px;display:grid;gap:6px;box-shadow:6px 6px 0 var(--ink);min-width:0}
+.link .eyebrow{color:var(--cobalt);font-size:12px}
+.link .val{font-family:var(--font-display);font-weight:600;font-size:clamp(16px,1.6vw,20px);overflow-wrap:anywhere;user-select:all}
+.link .row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:6px}
+.link a{font-weight:700;font-size:15px}
+.copy{font:inherit;font-size:13px;font-family:var(--font-mono);border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:5px 12px;cursor:pointer}
+.copy:hover{background:var(--sun)}
+footer.foot{background:var(--ink);color:#A9A8D6;font-family:var(--font-mono);font-size:13px}
+footer.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:22px}
+
+.case .shot.photo{padding:0;display:block;background:#121414;overflow:hidden}
+.case .shot.photo img{width:100%;height:100%;object-fit:cover;object-position:left top;display:block;transition:transform .5s ease}
+.case .shot.photo:hover img{transform:scale(1.03)}
+
+/* Ushini Maki mini preview */
+.case .shot.um{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;text-align:left;background:radial-gradient(120% 90% at 85% 40%,#123a37 0%,#141a1a 55%,#121414 100%);color:#efe9dc;padding:clamp(14px,3vw,26px);gap:clamp(10px,3vw,26px);font-family:var(--font-body)}
+.case .badge{z-index:2}
+.um-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-left:96px}
+.um-logo{font-family:"Cormorant Garamond",Georgia,serif;letter-spacing:.18em;font-size:clamp(11px,1.4vw,15px);font-weight:600;display:grid;line-height:1.2}
+.um-logo small{letter-spacing:0;font-family:var(--font-body);font-size:.7em;opacity:.7;font-weight:400}
+.um-lang{font-size:11px;border:1px solid #2a4a47;border-radius:999px;padding:3px 8px 3px 3px;white-space:nowrap}
+.um-lang b{background:#22b3a6;color:#0d1a19;border-radius:999px;padding:2px 7px;margin-right:4px}
+.um-hero{flex:1;display:grid;grid-template-columns:1.15fr 1fr;gap:12px;align-items:center;min-height:0}
+.um-h{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(22px,3.6vw,44px);line-height:1;font-weight:500}
+.um-rule{color:#c9a45c;font-size:11px;margin:8px 0;letter-spacing:.1em}
+.um-sub{font-size:clamp(10px,1.1vw,13px);opacity:.75;max-width:22em}
+.um-btns{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.um-btns span{font-size:clamp(9px,1vw,12px);background:#22b3a6;color:#0d1a19;border-radius:999px;padding:5px 11px;font-weight:600}
+.um-btns span.o{background:none;color:#efe9dc;border:1px solid #c9a45c}
+.um-plates{position:relative;aspect-ratio:1;max-width:100%;width:min(100%,240px);justify-self:center}
+.um-plates i{position:absolute;border-radius:50%;display:block}
+.um-plates .p1{inset:8% 4% 4% 8%;background:radial-gradient(circle at 50% 50%,#7a3b22 0 18%,#e0472f 19% 26%,#f2b233 27% 34%,#5a7a2e 35% 40%,#efe6d6 41% 52%,#2c4f8a 53% 62%,#e9dcc3 63% 66%,transparent 67%),#d8b98c;box-shadow:0 0 0 2px #121414,0 0 0 3px #22b3a6}
+.um-plates .p2{width:32%;height:32%;right:-4%;top:-2%;background:radial-gradient(circle,#f5c04a 0 30%,#fff3d8 31% 55%,#e9c88a 56%);box-shadow:0 0 0 4px #121414,0 0 0 5px #c9a45c}
+.um-plates .p3{width:36%;height:36%;left:-6%;bottom:-4%;background:radial-gradient(circle,#efe0b8 0 22%,#d8c48a 23% 34%,#5f8a3a 35% 40%,#f3ead6 41% 62%,#c9a875 63%);box-shadow:0 0 0 4px #121414,0 0 0 5px #22b3a6}
+@media (max-width:520px){.um-nav{padding-left:88px}.um-lang{display:none}.um-sub{display:none}}
+
+/* language switcher */
+.navr{display:flex;align-items:center;gap:14px}
+.lang{display:flex;gap:2px;padding:3px;border:2px solid rgba(255,255,255,.35);border-radius:999px}
+.lang button{font:inherit;font-family:var(--font-mono);font-size:13px;font-weight:600;color:#fff;background:transparent;border:0;border-radius:999px;padding:6px 11px;cursor:pointer;line-height:1}
+.lang button:hover{background:rgba(255,255,255,.14)}
+.lang button[aria-pressed="true"]{background:var(--sun);color:var(--ink)}
+html[lang="zh-CN"] .hero h1{letter-spacing:0}
+html[lang="zh-CN"] .contact h2,html[lang="zh-CN"] .head h2{letter-spacing:0}
+@media (max-width:480px){.navr .btn{display:none}.logo span{font-size:16px}}
+
+@media (max-width:960px){
+  .hero .wrap{grid-template-columns:1fr;gap:40px}
+  .machine{transform:none;max-width:520px}
+  .work{grid-template-columns:1fr}
+  .stack{grid-template-rows:none;grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .duo{grid-template-columns:1fr;gap:40px}
+  .links3{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .nav ul{display:none}
+  section.block{padding-block:64px}
+  .stack{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .about{padding:24px}
+  .blob.a{width:260px;height:260px;right:-120px;top:-100px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Главное меню">
+  <div class="wrap">
+    <a class="logo" href="#top"><b data-i18n="logo_b">Д</b><span data-i18n="logo_name">Давид</span></a>
+    <ul>
+      <li><a href="#work" data-i18n="nav_work">Работы</a></li>
+      <li><a href="#process" data-i18n="nav_process">Процесс</a></li>
+      <li><a href="#about" data-i18n="nav_about">Обо мне</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">Контакты</a></li>
+    </ul>
+    <div class="navr"><div class="lang" role="group" aria-label="Язык сайта"><button type="button" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-lang="en" aria-pressed="false">EN</button><button type="button" data-lang="zh" aria-pressed="false">中文</button></div>
+    <a class="btn" href="https://t.me/davidwebai" target="_blank" rel="noopener" data-i18n="nav_btn">Написать</a></div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="blob a"></div><div class="blob b"></div>
+  <div class="wrap">
+    <div>
+      <div class="eyebrow" data-i18n="hero_status"><span class="dot"></span> Открыт к проектам</div>
+      <h1 data-i18n="hero_h1">Веб-дизайн, <span class="pink">усиленный</span> <span class="ai">ИИ</span></h1>
+      <p class="lead" data-i18n="hero_lead">Проектирую сайты вместе с нейросетями: от промпта и мудборда до готового адаптивного интерфейса. Нейросеть быстро даёт варианты, а я выбираю лучший и довожу его до результата.</p>
+      <div class="ctas">
+        <a class="btn" href="#work" data-i18n="cta_work">Смотреть работы →</a>
+        <a class="btn ghost" href="#contact" data-i18n="cta_talk">Обсудить проект</a>
+      </div>
+    </div>
+
+    <div class="machine" id="machine" aria-label="Демонстрация: промпт превращается в макет">
+      <header><span></span><span></span><span></span><em>prompt → layout</em></header>
+      <div class="prompt"><span class="tag">/imagine</span> <span id="ptext">лендинг для кофейни, смелые цвета, крупная типографика</span><span class="caret"></span></div>
+      <div class="canvas" id="canvas">
+        <div class="bar"><i style="width:22%"></i><i style="width:40%;opacity:.3"></i></div>
+        <div class="heroblk" id="heroblk">
+          <div class="lines"><i style="width:90%"></i><i style="width:70%"></i><i style="width:45%;opacity:.5"></i></div>
+          <div class="pic"></div>
+        </div>
+        <div class="cards"><i></i><i></i><i></i></div>
+      </div>
+      <footer><span id="iter">итерация 01</span><span>seed 4821</span></footer>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true"><div>
+  <span>Midjourney</span><span>Figma</span><span>ChatGPT</span><span>Claude</span><span>Stable Diffusion</span><span>HTML / CSS</span><span data-i18n="mq_resp">Адаптивная вёрстка</span><span>UI / UX</span>
+  <span>Midjourney</span><span>Figma</span><span>ChatGPT</span><span>Claude</span><span>Stable Diffusion</span><span>HTML / CSS</span><span data-i18n="mq_resp">Адаптивная вёрстка</span><span>UI / UX</span>
+</div></div>
+
+<section class="block" id="work">
+  <div class="wrap">
+    <div class="head">
+      <div><div class="eyebrow" data-i18n="work_eb">Избранные работы</div><h2 data-i18n="work_h">Проекты</h2></div>
+      <p data-i18n="work_p">Каждый проект собран с участием нейросетей: идеи, тексты, изображения и код. Ниже показано, что получилось.</p>
+    </div>
+    <div class="work">
+      <article class="case">
+        <a class="shot photo" href="https://davidwebai2-sudo.github.io/ushini-maki/" target="_blank" rel="noopener">
+          <span class="badge" data-i18n="badge1">Проект 01 · концепт</span>
+          <img src="ushini-maki.jpg" width="1200" height="561" alt="Главная страница концепт-сайта Ushini Maki: заголовок «Искусство китайской кухни» и круглые фото блюд" loading="lazy">
+        </a>
+        <div class="body">
+          <h3>Ushini Maki</h3>
+          <p data-i18n="um_p">Концепт-проект: сайт вымышленного китайского ресторана в тёмной элегантной стилистике. Фотографии блюд созданы нейросетью, есть меню, раздел о чае и контакты, сайт переключается между тремя языками (RU / EN / 中文), а также между светлой и тёмной темой.</p>
+          <div class="chips"><span>HTML</span><span>CSS</span><span>JavaScript</span><span data-i18n="chip_lang">3 языка</span><span data-i18n="chip_dark">Тёмная тема</span><span data-i18n="chip_ai">ИИ-фото блюд</span><span>Claude</span></div>
+          <div class="links">
+            <a class="btn" href="https://davidwebai2-sudo.github.io/ushini-maki/" target="_blank" rel="noopener" data-i18n="view_site">Смотреть сайт ↗</a>
+            <a class="btn ghost" href="https://github.com/davidwebai2-sudo/ushini-maki" target="_blank" rel="noopener" data-i18n="view_code">Код на GitHub</a>
+          </div>
+        </div>
+      </article>
+      <div class="stack">
+        <div class="soon c1">
+          <div class="eyebrow" data-i18n="p2_eb">Проект 02 · в работе</div>
+          <div><h3 data-i18n="p2_h">Следующий кейс</h3><p data-i18n="p2_p">Место для нового проекта. Карточки добавляются по одной, сетка подстроится сама.</p></div>
+        </div>
+        <div class="soon">
+          <div class="eyebrow" data-i18n="p3_eb">Проект 03 · свободный слот</div>
+          <div><h3 data-i18n="p3_h">Ваш проект может быть здесь</h3><p data-i18n="p3_p">Делаю лендинги, сайты-визитки и интерфейсы с помощью ИИ.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block process" id="process">
+  <div class="wrap">
+    <div class="head">
+      <div><div class="eyebrow" data-i18n="pr_eb">Как я работаю</div><h2 data-i18n="pr_h">От брифа до запуска</h2></div>
+      <p data-i18n="pr_p">Нейросеть быстро даёт много вариантов. Я выбираю лучший и довожу его до готового продукта.</p>
+    </div>
+    <ol class="steps">
+      <li><h3 data-i18n="s1_h">Бриф</h3><p data-i18n="s1_p">Разбираемся в задаче, аудитории и настроении будущего сайта.</p><span class="who" data-i18n="s1_w">я + клиент</span></li>
+      <li><h3 data-i18n="s2_h">Промпт и мудборд</h3><p data-i18n="s2_p">Описываю идею для нейросети и собираю визуальные референсы.</p><span class="who" data-i18n="s2_w">я + Midjourney</span></li>
+      <li><h3 data-i18n="s3_h">Генерация вариантов</h3><p data-i18n="s3_p">Получаю десятки идей для стиля, цветов, иллюстраций и текстов.</p><span class="who" data-i18n="s3_w">ИИ</span></li>
+      <li><h3 data-i18n="s4_h">Отбор и макет</h3><p data-i18n="s4_p">Выбираю сильные решения и собираю из них цельный макет.</p><span class="who" data-i18n="s4_w">я + Figma</span></li>
+      <li><h3 data-i18n="s5_h">Вёрстка и запуск</h3><p data-i18n="s5_p">Перевожу макет в живой адаптивный сайт и публикую его.</p><span class="who" data-i18n="s5_w">я + Claude</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="block" id="about">
+  <div class="wrap duo">
+    <div>
+      <div class="head" style="margin-bottom:28px"><div><div class="eyebrow" data-i18n="sv_eb">Что я делаю</div><h2 data-i18n="sv_h">Услуги</h2></div></div>
+      <div class="services">
+        <div><b>◐</b><h3 data-i18n="sv1_h">Дизайн сайтов с ИИ</h3><p data-i18n="sv1_p">Лендинги, визитки и промо-страницы. Визуал генерирую в нейросетях и дорабатываю вручную.</p></div>
+        <div><b>✦</b><h3 data-i18n="sv2_h">ИИ-графика и иллюстрации</h3><p data-i18n="sv2_p">Уникальные изображения, иконки и фоны для сайта в едином стиле.</p></div>
+        <div><b>⌘</b><h3 data-i18n="sv3_h">Вёрстка и публикация</h3><p data-i18n="sv3_p">Перевожу макет в код, делаю версию для телефона и выкладываю сайт в интернет.</p></div>
+      </div>
+    </div>
+    <aside class="about">
+      <div class="ava"><span style="font-size:30px" data-i18n="logo_b">Д</span></div>
+      <h3 data-i18n="ab_h">Привет, я Давид</h3>
+      <p data-i18n="ab_p1">Однажды я заметил, как много людей создают сайты с помощью нейросетей, и подумал: а почему не я? Чем я хуже? Так и начал.</p>
+      <p data-i18n="ab_p2">Сейчас я делаю сайты вместе с ИИ: придумываю идею, генерирую визуал и довожу всё до живой страницы. С каждым проектом получается лучше, и мне интересно, куда это меня приведёт.</p>
+      <div class="stats">
+        <div><strong>1</strong><span data-i18n="st1">готовый сайт</span></div>
+        <div><strong>5+</strong><span data-i18n="st2">ИИ-инструментов</span></div>
+        <div><strong data-i18n="st3n">24ч</strong><span data-i18n="st3">до первого черновика</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:16px" data-i18n="nav_contact">Контакты</div>
+    <h2 data-i18n="ct_h">Давайте сделаем <em>что-то яркое</em></h2>
+    <div class="links3">
+      <div class="link">
+        <span class="eyebrow">Telegram</span>
+        <span class="val" id="tg">@davidwebai</span>
+        <div class="row"><a href="https://t.me/davidwebai" target="_blank" rel="noopener" data-i18n="ct_write">Написать ↗</a><button class="copy" data-copy="tg" type="button" data-i18n="copy">Копировать</button></div>
+      </div>
+      <div class="link">
+        <span class="eyebrow" data-i18n="ct_mail">Почта</span>
+        <span class="val" id="mail">davidwebai2@gmail.com</span>
+        <div class="row"><a href="mailto:davidwebai2@gmail.com" data-i18n="ct_write">Написать ↗</a><button class="copy" data-copy="mail" type="button" data-i18n="copy">Копировать</button></div>
+      </div>
+      <div class="link">
+        <span class="eyebrow">GitHub</span>
+        <span class="val" id="gh">github.com/davidwebai2-sudo</span>
+        <div class="row"><a href="https://github.com/davidwebai2-sudo" target="_blank" rel="noopener" data-i18n="ct_open">Открыть ↗</a><button class="copy" data-copy="gh" type="button" data-i18n="copy">Копировать</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot"><div class="wrap"><span data-i18n="ft_l">© 2026 Давид · AI Web Designer</span><span data-i18n="ft_r">Собрано с помощью нейросетей и вручную</span></div></footer>
+
+<script>
+(function(){
+  var T={"ru": {"_title": "Давид · AI Web Designer"}, "en": {"logo_b": "D", "logo_name": "David", "nav_work": "Work", "nav_process": "Process", "nav_about": "About", "nav_contact": "Contact", "nav_btn": "Get in touch", "hero_status": "<span class=\"dot\"></span> Open for projects", "hero_h1": "Web design <span class=\"pink\">powered</span> by <span class=\"ai\">AI</span>", "hero_lead": "I design websites together with neural networks, from the prompt and moodboard to a finished responsive interface. AI quickly produces options, and I pick the best one and take it all the way to the final result.", "cta_work": "See my work →", "cta_talk": "Discuss a project", "mq_resp": "Responsive layout", "work_eb": "Selected work", "work_h": "Projects", "work_p": "Every project is built with the help of neural networks: ideas, copy, images and code. Here is what came out of it.", "badge1": "Project 01 · concept", "um_p": "Concept project: a website for a fictional Chinese restaurant in a dark, elegant style. The food photos were generated by AI. It has a menu, a tea section and contacts, and it switches between three languages (RU / EN / 中文) and between light and dark themes.", "chip_lang": "3 languages", "chip_dark": "Dark theme", "chip_ai": "AI food photos", "view_site": "View site ↗", "view_code": "Code on GitHub", "p2_eb": "Project 02 · in progress", "p2_h": "Next case study", "p2_p": "Space for a new project. Cards are added one at a time and the grid adjusts itself.", "p3_eb": "Project 03 · open slot", "p3_h": "Your project could be here", "p3_p": "I make landing pages, business card websites and interfaces with AI.", "pr_eb": "How I work", "pr_h": "From brief to launch", "pr_p": "AI quickly gives many options. I choose the best one and turn it into a finished product.", "s1_h": "Brief", "s1_p": "We figure out the task, the audience and the mood of the future site.", "s1_w": "me + client", "s2_h": "Prompt and moodboard", "s2_p": "I describe the idea for the AI and collect visual references.", "s2_w": "me + Midjourney", "s3_h": "Generating options", "s3_p": "I get dozens of ideas for style, colors, illustrations and copy.", "s3_w": "AI", "s4_h": "Selection and layout", "s4_p": "I pick the strongest solutions and assemble them into a coherent layout.", "s4_w": "me + Figma", "s5_h": "Build and launch", "s5_p": "I turn the layout into a live responsive website and publish it.", "s5_w": "me + Claude", "sv_eb": "What I do", "sv_h": "Services", "sv1_h": "AI-powered web design", "sv1_p": "Landing pages, business card sites and promo pages. I generate the visuals with neural networks and refine them by hand.", "sv2_h": "AI graphics and illustrations", "sv2_p": "Unique images, icons and backgrounds for your site in one consistent style.", "sv3_h": "Build and publishing", "sv3_p": "I turn the design into code, make a mobile version and put the site online.", "ab_h": "Hi, I'm David", "ab_p1": "One day I noticed how many people build websites with neural networks, and I thought: why not me? Am I any worse? So I started.", "ab_p2": "Now I build websites together with AI: I come up with the idea, generate the visuals and take everything to a live page. Each project turns out better than the last, and I'm curious to see where this takes me.", "st1": "finished site", "st2": "AI tools", "st3n": "24h", "st3": "to the first draft", "ct_h": "Let's make <em>something bold</em>", "ct_mail": "Email", "ct_write": "Message ↗", "ct_open": "Open ↗", "copy": "Copy", "ft_l": "© 2026 David · AI Web Designer", "ft_r": "Built with neural networks and by hand", "_title": "David · AI Web Designer"}, "zh": {"logo_b": "D", "logo_name": "大卫", "nav_work": "作品", "nav_process": "流程", "nav_about": "关于我", "nav_contact": "联系方式", "nav_btn": "联系我", "hero_status": "<span class=\"dot\"></span> 接受新项目", "hero_h1": "<span class=\"ai\">AI</span> <span class=\"pink\">赋能</span>的网页设计", "hero_lead": "我与神经网络一起设计网站：从提示词和情绪板，到完整的响应式界面。AI 快速给出多个方案，我挑选最好的一个，并把它打磨成最终成果。", "cta_work": "查看作品 →", "cta_talk": "洽谈项目", "mq_resp": "响应式布局", "work_eb": "精选作品", "work_h": "项目", "work_p": "每个项目都借助神经网络完成：创意、文案、图片和代码。下面是成果。", "badge1": "项目 01 · 概念", "um_p": "概念项目：一家虚构中餐厅的网站，采用深色优雅风格。菜品照片由 AI 生成。网站包含菜单、茶饮板块和联系方式，支持三种语言（RU / EN / 中文）切换，以及浅色和深色主题切换。", "chip_lang": "3 种语言", "chip_dark": "深色主题", "chip_ai": "AI 菜品照片", "view_site": "查看网站 ↗", "view_code": "GitHub 源码", "p2_eb": "项目 02 · 进行中", "p2_h": "下一个案例", "p2_p": "这里留给新项目。卡片逐个添加，网格会自动调整。", "p3_eb": "项目 03 · 空位", "p3_h": "你的项目可以在这里", "p3_p": "我用 AI 制作落地页、名片网站和界面。", "pr_eb": "工作方式", "pr_h": "从需求到上线", "pr_p": "AI 能快速给出大量方案。我选出最好的，并把它做成完整的产品。", "s1_h": "需求", "s1_p": "明确任务、目标用户和网站的整体氛围。", "s1_w": "我 + 客户", "s2_h": "提示词与情绪板", "s2_p": "为 AI 描述创意，并收集视觉参考。", "s2_w": "我 + Midjourney", "s3_h": "生成方案", "s3_p": "获得几十种关于风格、配色、插图和文案的想法。", "s3_w": "AI", "s4_h": "筛选与设计稿", "s4_p": "挑出最好的方案，组合成完整统一的设计稿。", "s4_w": "我 + Figma", "s5_h": "开发与上线", "s5_p": "把设计稿变成可上线的响应式网站并发布。", "s5_w": "我 + Claude", "sv_eb": "我能做什么", "sv_h": "服务", "sv1_h": "AI 网站设计", "sv1_p": "落地页、名片网站和推广页面。视觉由神经网络生成，再由我手工精修。", "sv2_h": "AI 图形与插画", "sv2_p": "为网站打造风格统一的独特图片、图标和背景。", "sv3_h": "开发与发布", "sv3_p": "把设计变成代码，适配手机端，并把网站发布上线。", "ab_h": "你好，我是大卫", "ab_p1": "有一天我发现，很多人都在用神经网络做网站，我就想：为什么我不行？我又差在哪里？于是我开始了。", "ab_p2": "现在我和 AI 一起做网站：构思创意、生成视觉，再把一切变成真正上线的页面。每个项目都比上一个更好，我很想知道这条路会带我走向哪里。", "st1": "个完成的网站", "st2": "款 AI 工具", "st3n": "24小时", "st3": "交付初稿", "ct_h": "一起做点<em>亮眼的</em>东西", "ct_mail": "邮箱", "ct_write": "发消息 ↗", "ct_open": "打开 ↗", "copy": "复制", "ft_l": "© 2026 大卫 · AI 网页设计师", "ft_r": "由神经网络与手工共同打造", "_title": "大卫 · AI 网页设计师"}}, X={"ru": {"copied": "Скопировано", "selected": "Выделено", "copy": "Копировать", "iter": "итерация", "demo": "Демонстрация: промпт превращается в макет", "langs": "Язык сайта", "prompts": ["лендинг для кофейни, смелые цвета, крупная типографика", "сайт студии йоги, спокойный, мятные оттенки, воздух", "портфолио фотографа, контраст, акцент на снимках", "промо-страница игры, неон, динамика, яркие блоки"]}, "en": {"copied": "Copied", "selected": "Selected", "copy": "Copy", "iter": "iteration", "demo": "Demo: a prompt turns into a layout", "langs": "Site language", "prompts": ["coffee shop landing page, bold colors, big type", "yoga studio site, calm, mint tones, lots of air", "photographer portfolio, high contrast, focus on photos", "game promo page, neon, motion, bright blocks"]}, "zh": {"copied": "已复制", "selected": "已选中", "copy": "复制", "iter": "迭代", "demo": "演示：提示词变成设计稿", "langs": "网站语言", "prompts": ["咖啡店落地页，大胆配色，大号字体", "瑜伽工作室网站，安静，薄荷色调，留白", "摄影师作品集，高对比，突出照片", "游戏推广页，霓虹，动感，明亮色块"]}};
+  var colors=[["#FF4F9A","#FFD84A"],["#3DE8B2","#F2F3FF"],["#FFD84A","#2638FF"],["#8E9BFF","#FF4F9A"]];
+  var nodes=[].slice.call(document.querySelectorAll("[data-i18n]"));
+  nodes.forEach(function(n){var k=n.getAttribute("data-i18n");if(!(k in T.ru))T.ru[k]=n.innerHTML;});
+  var lang="ru";
+  try{var saved=localStorage.getItem("lang");if(saved&&T[saved])lang=saved;}catch(e){}
+  var ptext=document.getElementById("ptext"),blk=document.getElementById("heroblk"),cv=document.getElementById("canvas"),it=document.getElementById("iter"),machine=document.getElementById("machine");
+  var i=0;
+  function setLang(l){
+    lang=l;
+    nodes.forEach(function(n){var k=n.getAttribute("data-i18n");n.innerHTML=(T[l][k]!=null?T[l][k]:T.ru[k]);});
+    document.documentElement.lang=(l==="zh"?"zh-CN":l);
+    document.title=T[l]._title;
+    machine.setAttribute("aria-label",X[l].demo);
+    document.querySelector(".lang").setAttribute("aria-label",X[l].langs);
+    document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.lang===l?"true":"false");});
+    ptext.textContent=X[l].prompts[i];
+    it.textContent=X[l].iter+" 0"+(i+1);
+    try{localStorage.setItem("lang",l);}catch(e){}
+  }
+  document.querySelectorAll(".lang button").forEach(function(b){b.addEventListener("click",function(){setLang(b.dataset.lang);});});
+  if(lang!=="ru")setLang(lang);
+
+  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    var typing=null;
+    var type=function(done){var txt=X[lang].prompts[i],n=0;ptext.textContent="";clearInterval(typing);typing=setInterval(function(){n++;ptext.textContent=txt.slice(0,n);if(n>=txt.length){clearInterval(typing);done();}},38);};
+    var next=function(){
+      i=(i+1)%colors.length;
+      type(function(){
+        blk.style.setProperty("--c1",colors[i][0]);blk.style.setProperty("--c2",colors[i][1]);
+        cv.classList.remove("gen");void cv.offsetWidth;cv.classList.add("gen");
+        it.textContent=X[lang].iter+" 0"+(i+1);
+        setTimeout(next,2600);
+      });
+    };
+    setTimeout(next,2600);
+  }
+
+  document.querySelectorAll(".copy").forEach(function(b){
+    b.addEventListener("click",function(){
+      var el=document.getElementById(b.dataset.copy),txt=el.textContent.trim();
+      var flash=function(k){b.textContent=X[lang][k];setTimeout(function(){b.textContent=X[lang].copy;},1600);};
+      var fallback=function(){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);flash("selected");};
+      try{navigator.clipboard.writeText(txt).then(function(){flash("copied");},fallback);}catch(e){fallback();}
+    });
+  });
+})();
+</script>
+</body>
+</html>
